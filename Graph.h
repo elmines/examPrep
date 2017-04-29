@@ -10,8 +10,12 @@ class Graph
 {
 	public:
 		Graph(char* filePath);
+		void PrintAdjacencyList();
+		void DFS(int source);
 
 	private:
+		void DFSHelper(int vertex);
+
 		int _count;
 		int *_visited;
 		int *_predecessor; //For minimum spanning tree algorithms

@@ -10,36 +10,44 @@ Graph::Graph(char* filePath)
 	ifstream edges;
 	edges.open(filePath);
 
-	int source, target;
+	int source, target, weight;
+	bool weighted;
 
-	if (!filePath)
+	if (!edges)
 	{
 		cerr << "Graph::Graph() Error: could not open " << filePath << endl;
 		exit(-1);
 	}
 	
 	//Read in count at beginning of file
-	cin >> _count;
-	adjacenyList = new Node<Edge>[_count];
+	edges >> _count;
+	edges >> weighted;
+	adjacenyList = new Node<Edge>*[_count];
 	memset(adjacencyList, NULL, _count * sizeof(Node<Edge>*));
 
-	for (int i = 0; i < count; ++i)
+	//While there are still edges to be read
+	while (edges >> source)
 	{
-		cin >> source;
-		cin >> target;
+		edges >> target;
+		weight = 1;
+		if (weighted) edges >> weight;
 
-
-		Edge newEdge(source, target);
+		Edge newEdge(source, target, weight);
 
 		Node<Edge>* ptr = adjacencyList[i];
 		while (ptr != NULL) ptr = ptr->GetNext();
 		ptr = new Node(newEdge, NULL);
 	}
 
-		
+	edges.close();	
 }	
 
-void Graph::DFS()
+void Graph::PrintAdjacencyList()
+{
+
+}
+
+void Graph::DFS(int source)
 {
 	//Examine a vertex
 	//Examine each adjacent, unvisited vertex
