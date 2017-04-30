@@ -6,9 +6,11 @@ using namespace std;
 
 class Edge
 {
+	friend ostream& operator<<(ostream& out, Edge& e);
 	public:
-		Edge(int target);
-		Edge(int target, int weight);
+		Edge(int source, int target);
+		Edge(int source, int target, int weight);
+		int GetSource() const{return _source;}
 		int GetWeight() const{return _weight;}
 		int GetTarget() const{return _target;}
 
