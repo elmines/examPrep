@@ -5,11 +5,12 @@ class Node
 {
 	public:
 		//Node();
-		Node(T value, Node* next);
+		Node<T>(T value, Node<T>* next);
+		~Node();
 		T GetValue() const {return _value;}
 		Node<T>* GetNext() const {return _next;}
 
 	private:
 		T _value;
-		Node* _next;
-}
+		Node<T>* _next;
+};

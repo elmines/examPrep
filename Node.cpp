@@ -1,6 +1,16 @@
 #include<iostream>
+#include "Node.h"
 using namespace std;
-Node::Node(T value, Node* next) : _value(value), _next(next)
+
+template<typename T>
+Node<T>::Node(T value, Node<T>* next) : _value(value), _next(next)
 {
 }
 
+template<typename T>
+Node<T>::~Node()
+{
+	if (this->_next != NULL) delete this->_next;
+}
+
+template class Node<int>;
