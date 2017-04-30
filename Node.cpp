@@ -1,5 +1,6 @@
 #include<iostream>
 #include "Node.h"
+#include "Edge.h"
 using namespace std;
 
 template<typename T>
@@ -14,3 +15,4 @@ Node<T>::~Node()
 }
 
 template class Node<int>;
+template class Node<Edge>;
