@@ -12,7 +12,7 @@ Graph::Graph(char* filePath)
 	edges.open(filePath);
 
 	int source, target, weight;
-	bool weighted;
+	bool weighted, directed;
 
 	if (!edges)
 	{
@@ -22,6 +22,7 @@ Graph::Graph(char* filePath)
 	//Read in count at beginning of file
 	edges >> _numVertices;
 	edges >> weighted;
+	edges >> directed;
 
 	_adjacencyList = new Node<Edge>*[_numVertices];
 	_visited = new int[_numVertices];
@@ -39,16 +40,16 @@ Graph::Graph(char* filePath)
 		weight = 1;
 		if (weighted) edges >> weight;
 
-		Edge newEdge(source, target, weight);
+		Edge forwards(source, target, weight);
+		AddEdge(forwards);
 
-		if (_adjacencyList[source] == NULL) _adjacencyList[source] = new Node<Edge>(newEdge, NULL);
-		else
+		//Add the edge twice if the graph is undirected
+		if (!directed)
 		{
-			Node<Edge>* ptr = _adjacencyList[source];
-			while (ptr->GetNext() != NULL) ptr = ptr->GetNext();
-			ptr->SetNext(new Node<Edge>(newEdge, NULL) );
+			Edge backwards(target, source, weight);
+			AddEdge(backwards);
 		}
-		++_numEdges;
+
 	}
 
 	edges.close();	
@@ -57,7 +58,7 @@ Graph::Graph(char* filePath)
 void Graph::PrintAdjacencyList()
 {
 	Node<Edge>* ptr;
-	for (int i = 0; i < _numEdges; ++i)
+	for (int i = 0; i < _numVertices; ++i)
 	{
 		cout << "Vertex " << i << ": ";
 		ptr = _adjacencyList[i];
@@ -74,16 +75,67 @@ void Graph::PrintAdjacencyList()
 
 
 
-/*
-   void Graph::DFS(int source)
-   {
-//Examine a vertex
-//Examine each adjacent, unvisited vertex
-//Stop when there are no vertices to visit
-};
 
-
-void Graph::DFSHelper(int vertex)
+void Graph::DFS(int source)
 {
+	DFSHelper(-1, source, 0);
+
+}
+
+void Graph::BFS(int source)
+{
+	Queue<int> vertexQueue;
+	BSFHelper(-1, source, 0);
+
+	int currVertex = source;
+	do
+	{
+		Node<Edge>* adjacentVertex = adjacencyList[currVertex];
+		while (adjacentVertex 
+		
+
+}
+
+
+void Graph::DFSHelper(int predecessor, int vertex, int depth)
+{
+	if (_visited[vertex]) return;
+
+	_visited[vertex] = true;
+	if (predecessor >= 0) _predecessor[vertex] = predecessor;
+
+	for (int i = 0; i < depth; ++i) cout << '\t';
+	cout << "Visited vertex " << vertex << endl;
+
+	Node<Edge>* adjacentVertex = _adjacencyList[vertex];
+	while (adjacentVertex != NULL)
+	{
+		DFSHelper(vertex, adjacentVertex->GetValue().GetTarget(), depth + 1);
+		adjacentVertex = adjacentVertex->GetNext();
+	}
 }	
-*/
+
+void Graph::BFSHelper(int predecessor, int vertex, int depth)
+{
+	if (_visited[vertex]) return;
+	_visited[vertex] = true;
+	if (predecessor >= 0) _predecessor[vertex] = predecessor;
+
+	cout << "Visited vertex " << vertex << " (shortest distance = " << depth << ')' << endl;
+
+
+
+void Graph::AddEdge(Edge& e)
+{
+
+		if (_adjacencyList[e.GetSource()] == NULL) _adjacencyList[e.GetSource()] = new Node<Edge>(e, NULL);
+		else
+		{
+			Node<Edge>* ptr = _adjacencyList[e.GetSource()];
+			while (ptr->GetNext() != NULL) ptr = ptr->GetNext();
+			ptr->SetNext(new Node<Edge>(e, NULL) );
+		}
+		++_numEdges;
+}
+
+
