@@ -5,6 +5,7 @@
 #include "Edge.h"
 #include "Graph.h"
 #include "ArrayQueue.h"
+#include "Heap.h"
 using namespace std;
 
 Graph::Graph(char* filePath)
@@ -116,6 +117,38 @@ void Graph::BFS(int source)
 	delete[] distance;
 }
 
+Node<Edge>* Graph::PrimMST()
+{
+	Heap<Edge>* h = GenHeap();
+	Node<Edge> *Source, *MST;
+	int edgesAdded;
+
+	cout << "Generated heap." << endl;
+	h->out();
+	cout << endl;
+
+	MST = NULL;
+       	edgesAdded = 0;
+
+	while ( (edgesAdded < (_numVertices - 1)) && (!h->IsEmpty()) )
+	{
+		Edge nextEdge = h->extract();
+		if (ExpandsMST(nextEdge)) 
+		{
+			if (MST == NULL) Source = MST = new Node<Edge>(nextEdge, NULL);
+			else
+			{
+				MST->SetNext(new Node<Edge>(nextEdge, NULL));
+				MST = MST->GetNext();
+			}
+		}
+	}
+	return Source;
+}
+
+
+
+
 
 void Graph::DFSHelper(int predecessor, int vertex, int depth)
 {
@@ -147,6 +180,33 @@ void Graph::AddEdge(Edge& e)
 			ptr->SetNext(new Node<Edge>(e, NULL) );
 		}
 		++_numEdges;
+}
+
+Heap<Edge>* Graph::GenHeap()
+{
+	Heap<Edge>* h = new Heap<Edge>;
+
+	for (int i = 0; i < _numVertices; ++i)
+	{
+		Node<Edge>* ptr = _adjacencyList[i];
+		while (ptr != NULL)
+		{
+			h->insert(ptr->GetValue());
+			ptr = ptr->GetNext();
+		}
+	}
+	return h;
+}	
+
+
+/*
+ * Helper function for Graph::PrimMST()
+ * Returns true if adding e will expand the subtree while not creating a cycle
+ */
+inline bool Graph::ExpandsMST(const Edge& e)
+{
+	return (_visited[e.GetSource()] ^ _visited[e.GetTarget()]);
+
 }
 
 

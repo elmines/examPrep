@@ -4,6 +4,7 @@
 #include<iostream>
 #include "Node.h"
 #include "Edge.h"
+#include "Heap.h"
 using namespace std;
 
 class Graph
@@ -13,6 +14,7 @@ class Graph
 		void PrintAdjacencyList();
 		void DFS(int source);
 		void BFS(int source);
+		Node<Edge>* PrimMST();
 
 	private:
 		//void DFSHelper(int vertex);
@@ -26,6 +28,8 @@ class Graph
 
 		void DFSHelper(int predecessor, int source, int depth);
 		void AddEdge(Edge& e);
+		Heap<Edge>* GenHeap();
+		bool ExpandsMST(const Edge& e);
 
 };
 #endif

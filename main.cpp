@@ -12,6 +12,22 @@ int main(int argc, char* argv[])
 
 	Graph g(argv[1]);
 	g.PrintAdjacencyList();
-	g.BFS(0);
+	//g.BFS(0);
+	//
+	//
+	Node<Edge>* MST = g.PrimMST();
+	Node<Edge>* ptr = MST;
+
+	cout << ptr << endl;
+
+	cout << "Prim MST:" << endl;
+	while (ptr)
+	{
+		Edge e = ptr->GetValue();
+		cout << "At least obtained the first value." << endl;
+		cout << e << endl;
+		ptr = ptr->GetNext();
+	}
+		
 	return 0;
 }

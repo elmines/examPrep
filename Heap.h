@@ -16,6 +16,7 @@ class Heap
 		void insert(T value);
 		T extract();
 		void out(); //Level-order output of the values in the heap
+		bool IsEmpty() const{ return size == 0;}
 
 	private:
 		T* Array;
