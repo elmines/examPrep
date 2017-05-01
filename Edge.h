@@ -7,6 +7,13 @@ using namespace std;
 class Edge
 {
 	friend ostream& operator<<(ostream& out, Edge& e);
+	friend bool operator>=(Edge& a, Edge& b);
+	friend bool operator>(Edge& a, Edge& b);
+	friend bool operator==(Edge& a, Edge& b);
+	friend bool operator<(Edge& a, Edge& b);
+	friend bool operator<=(Edge& a, Edge& b);
+	friend bool operator!=(Edge& a, Edge& b);
+
 	public:
 		Edge(int source, int target);
 		Edge(int source, int target, int weight);
