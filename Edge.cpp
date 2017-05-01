@@ -16,6 +16,10 @@ bool operator<(Edge& a, Edge& b){return a._weight < b._weight;}
 bool operator<=(Edge& a, Edge& b){return a._weight <= b._weight;}
 bool operator!=(Edge& a, Edge& b){return a._weight != b._weight;}
 
+Edge::Edge() : _source(-1), _target(-1), _weight(1)
+{
+}
+
 Edge::Edge(int source, int target) : _source(source), _target(target), _weight(1)
 {
 }

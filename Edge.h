@@ -15,6 +15,7 @@ class Edge
 	friend bool operator!=(Edge& a, Edge& b);
 
 	public:
+		Edge();
 		Edge(int source, int target);
 		Edge(int source, int target, int weight);
 		int GetSource() const{return _source;}
