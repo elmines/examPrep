@@ -85,14 +85,18 @@ void Graph::DFS(int source)
 
 void Graph::BFS(int source)
 {
+	int* distance = new int[_numVertices];
 	ArrayQueue<int> vertexQueue(_numVertices);
+
 	vertexQueue.enqueue(source);
 	_visited[source] = true;
+	_predecessor[source] = -1;
+	distance[source] = 0;
 
 	while (!vertexQueue.isEmpty())
 	{
 		int currVertex = vertexQueue.dequeue();
-		cout << "Visited vertex " << currVertex << endl;
+		cout << "Visited vertex " << currVertex << ", " << distance[currVertex] << " edges from the source." << endl;
 		//Could do a calculation on the vertex here
 
 		Node<Edge>* edge = _adjacencyList[currVertex];
@@ -103,11 +107,13 @@ void Graph::BFS(int source)
 			{
 				vertexQueue.enqueue(adjacentVertex);
 				_visited[adjacentVertex] = true;
+				_predecessor[source] = currVertex;			
+				distance[adjacentVertex] = distance[currVertex] + 1;
 			}
 			edge = edge->GetNext();
 		}
 	}	
-
+	delete[] distance;
 }
 
 
