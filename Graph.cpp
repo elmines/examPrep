@@ -4,6 +4,7 @@
 #include "Node.h"
 #include "Edge.h"
 #include "Graph.h"
+#include "ArrayQueue.h"
 using namespace std;
 
 Graph::Graph(char* filePath)
@@ -84,15 +85,28 @@ void Graph::DFS(int source)
 
 void Graph::BFS(int source)
 {
-	Queue<int> vertexQueue;
-	BSFHelper(-1, source, 0);
+	ArrayQueue<int> vertexQueue(_numVertices);
+	vertexQueue.enqueue(source);
+	_visited[source] = true;
 
-	int currVertex = source;
-	do
+	while (!vertexQueue.isEmpty())
 	{
-		Node<Edge>* adjacentVertex = adjacencyList[currVertex];
-		while (adjacentVertex 
-		
+		int currVertex = vertexQueue.dequeue();
+		cout << "Visited vertex " << currVertex << endl;
+		//Could do a calculation on the vertex here
+
+		Node<Edge>* edge = _adjacencyList[currVertex];
+		while (edge != NULL)
+		{
+			int adjacentVertex = edge->GetValue().GetTarget();
+			if (!_visited[adjacentVertex])
+			{
+				vertexQueue.enqueue(adjacentVertex);
+				_visited[adjacentVertex] = true;
+			}
+			edge = edge->GetNext();
+		}
+	}	
 
 }
 
@@ -106,6 +120,7 @@ void Graph::DFSHelper(int predecessor, int vertex, int depth)
 
 	for (int i = 0; i < depth; ++i) cout << '\t';
 	cout << "Visited vertex " << vertex << endl;
+	//Could do a calculation on the vertex here
 
 	Node<Edge>* adjacentVertex = _adjacencyList[vertex];
 	while (adjacentVertex != NULL)
@@ -114,16 +129,6 @@ void Graph::DFSHelper(int predecessor, int vertex, int depth)
 		adjacentVertex = adjacentVertex->GetNext();
 	}
 }	
-
-void Graph::BFSHelper(int predecessor, int vertex, int depth)
-{
-	if (_visited[vertex]) return;
-	_visited[vertex] = true;
-	if (predecessor >= 0) _predecessor[vertex] = predecessor;
-
-	cout << "Visited vertex " << vertex << " (shortest distance = " << depth << ')' << endl;
-
-
 
 void Graph::AddEdge(Edge& e)
 {

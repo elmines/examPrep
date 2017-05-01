@@ -1,0 +1,1 @@
+g++ -Wall Graph.cpp Edge.cpp Node.cpp ArrayQueue.cpp main.cpp

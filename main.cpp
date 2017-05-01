@@ -12,6 +12,6 @@ int main(int argc, char* argv[])
 
 	Graph g(argv[1]);
 	g.PrintAdjacencyList();
-	g.DFS(0);
+	g.BFS(0);
 	return 0;
 }

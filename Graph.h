@@ -12,6 +12,7 @@ class Graph
 		Graph(char* filePath);
 		void PrintAdjacencyList();
 		void DFS(int source);
+		void BFS(int source);
 
 	private:
 		//void DFSHelper(int vertex);
